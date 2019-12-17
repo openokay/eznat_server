@@ -6,6 +6,7 @@
   4.多选删除支持 multipleSelection
 */
 import { isNumber } from 'util'
+import {indexOf} from "codemirror/src/util/misc";
 export default {
   data() {
     return {
@@ -75,7 +76,7 @@ export default {
       this.dialogFormVisible = false
     },
     handleDelete(id) {
-      if (isNumber(id)) {
+      if (indexOf(id, ",") === -1) {
         this.api.delete(id).then(res => {
           this.retrieve()
         })
