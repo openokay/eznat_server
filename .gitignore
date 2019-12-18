@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /.idea
+eznat/conf/Conf.php
 /.vscode
 /vendor
 storage
