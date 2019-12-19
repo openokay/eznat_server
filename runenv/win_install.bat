@@ -1,1 +1,0 @@
-win_php\\php.exe composer.phar install -d ..\\
