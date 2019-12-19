@@ -6,6 +6,19 @@ class PortMapDao
 {
     public function retrieve($where)
     {
+        $clientList = DB::connection("sqlite")
+            ->table("client")
+            ->select('channel')
+            ->get()->toArray();
+        $tmp = [];
+        foreach ($clientList as $client) {
+            $tmp[] = $client->channel;
+        }
+        DB::connection("sqlite")
+            ->table("port_map")
+            ->whereNotIn('channel', $tmp)
+            ->delete();
+
         return DB::connection("sqlite")
             ->table("port_map")
             ->join("client","port_map.channel", "=", "client.channel")
