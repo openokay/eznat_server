@@ -6,10 +6,10 @@
 **兄弟别只顾着fork代码，给个star先。**
 
 ### 如何使用
-[点击查看安装文档](https://gitee.com/FYDEV/eznat/wikis/pages)
+[点击查看安装文档](https://gitee.com/FYDEV/eznat_server/wikis/pages)
 
-    1.服务端暂时只支持部署到linux系统。
-    2.客户端只测试了windows和linux
+    1. 服务端支持centos，redhat，Ubuntu 等linux操作系统
+    2. 客戶端支持windows,centos，Ubuntu，redhat等操作系统
     
 ## eznat优势 使用超级简单，使用超级简单
     1.docker-compose 一键启动服务端。
