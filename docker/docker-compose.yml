@@ -32,6 +32,9 @@ services:
         - /bin/bash
         - -c
         - |
+          set -eux ;\
+          sed -i "s/10.20.1.80/${XDEBUG_DOMAIN}/" /usr/local/etc/php/conf.d/xdebug.ini ;\
+          sed -i "s/9001/${XDEBUG_PORT}/" /usr/local/etc/php/conf.d/xdebug.ini ;\
           composer config -g repo.packagist composer https://packagist.phpcomposer.com ;\
           chown www-data:www-data /etc/nginx/html/eznat -R;\
           composer install -d /etc/nginx/html/eznat ;\

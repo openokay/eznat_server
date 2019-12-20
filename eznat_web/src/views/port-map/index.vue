@@ -2,14 +2,23 @@
 .structure {
   path: 1;
   margin: 20px;
-  .server-status{
-    path: 1-2;
-    font-weight: bold;
-    font-size: 1.2em;
-    background: #fff;
-    margin: 20px 0;
-    color: red;
+  .search-box {
+    path: 1-3;
+    margin: 10px 0;
+    .server-status{
+      color: hotpink;
+      margin-left: 15px;
+      font-weight: bold;
+    }
   }
+}
+.el-loading-spinner i{
+  color: white;
+  font-size: 1.2em;
+}
+.el-loading-text {
+  color: white !important;
+  font-size: 1.2em !important;
 }
 </style>
 
@@ -29,15 +38,19 @@
       <el-button size="mini" @click="status()">查看状态</el-button>
     </div>
 
-    <div
-      class="server-status"
-      v-loading="loading"
-      element-loading-text="正在加载服务端运行状态..."
-      element-loading-spinner="el-icon-loading"
-      element-loading-background="rgba(255, 255, 255, 0.7)">
-      服务器状态：{{ serverStatus}}
+    <div class="search-box">
+      <el-select v-model="form.channel" @change="search()" placeholder="请选择">
+        <el-option
+          v-for="item in client_list"
+          :key="item.channel"
+          :label="item.name"
+          :value="item.channel">
+        </el-option>
+      </el-select>
+      <span class="server-status">
+      {{ serverStatus}}
+      </span>
     </div>
-
     <el-table
       ref="multipleTable"
       :data="tableData"
@@ -164,8 +177,9 @@ export default {
         description: '无',
         channel: ''
       },
-      serverStatus: "正在获取中....",
+      serverStatus: "正在获取映射服务状态...",
       loading: true,
+      loading_data: true,
       client_list: []
     }
   },
@@ -175,6 +189,7 @@ export default {
     client.retrieve().then(res => {
       that.client_list = res.data
     })
+    this.loading_data = false
   },
   methods: {
     stop() {
@@ -203,10 +218,23 @@ export default {
     status() {
       let that = this
       this.loading = true
+      this.serverStatus = "正在获取映射服务状态..."
       serviceManage.status().then(res => {
-        that.serverStatus = res.out.length > 2 ? "运行中" : "已经停止";
+        that.serverStatus = "映射服务" + (res.out.length > 2 ? "运行中" : "已经停止");
         that.loading = false
       })
+    },
+    search() {
+        const loading = this.$loading({
+            lock: true,
+            text: '加载数据中...',
+            spinner: 'el-icon-loading',
+            background: 'rgba(0, 0, 0, 0.4)'
+        });
+        this.query = {channel: this.form.channel}
+        this.api.retrieve().then(res => {
+            loading.close();
+        });
     },
     openCreateView(row, type) {
       this.dialogFormVisible = true

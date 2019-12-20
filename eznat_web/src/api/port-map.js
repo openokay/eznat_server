@@ -1,11 +1,11 @@
 import request from '@/utils/request'
 const name = 'port_map'
 export default {
-  retrieve: function() {
+  retrieve: function(data) {
     return request({
       url: name + '/retrieve',
       method: 'post',
-      params: {}
+      params: data
     })
   },
   create: function(data) {
