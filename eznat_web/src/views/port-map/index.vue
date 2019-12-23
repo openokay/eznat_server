@@ -55,6 +55,7 @@
       ref="multipleTable"
       :data="tableData"
       :border="true"
+      :row-class-name="tableRowClassName"
       tooltip-effect="dark"
       style="width: 100%"
       @selection-change="handleSelectionChange"
@@ -62,13 +63,24 @@
       <el-table-column type="selection" width="55"></el-table-column>
       <el-table-column prop="id" label="ID" sortable width="100"></el-table-column>
       <el-table-column label="客户端">
-        <template slot-scope="scope">{{ scope.row.client }}</template>
+        <template slot-scope="scope">
+          {{ scope.row.client }}
+        </template>
+      </el-table-column>
+      <el-table-column width="70" label="状态">
+        <template slot-scope="scope">
+          <el-tag :type="isOnline(scope.row.is_online)">{{ scope.row.is_online==1 ? '在线' : '离线' }}</el-tag>
+        </template>
       </el-table-column>
       <el-table-column label="名称">
-        <template slot-scope="scope">{{ scope.row.name }}</template>
+        <template slot-scope="scope">
+          {{ scope.row.name }}
+        </template>
       </el-table-column>
       <el-table-column label="远程端口">
-        <template slot-scope="scope">{{ scope.row.remote_port }}</template>
+        <template slot-scope="scope">
+          {{ scope.row.remote_port }}
+        </template>
       </el-table-column>
       <el-table-column label="本地IP">
         <template slot-scope="scope">{{ scope.row.local_ip }}</template>

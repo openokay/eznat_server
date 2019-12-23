@@ -4,6 +4,7 @@
 /storage/*.key
 /.idea
 eznat/conf/Conf.php
+eznat/data/eznat.db
 /.vscode
 /vendor
 storage

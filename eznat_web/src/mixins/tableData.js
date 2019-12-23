@@ -5,7 +5,7 @@
   3.通过this.query.xxx新增查询条件，条件变化之后自动请求
   4.多选删除支持 multipleSelection
 */
-import { isNumber } from 'util'
+
 import {indexOf} from "codemirror/src/util/misc";
 export default {
   data() {
@@ -24,6 +24,17 @@ export default {
         count: 1,
         currentPage: '',
         choosePagesize: [2, 5, 10, 20, 30, 40, 50] // 2 for test
+      }
+    }
+  },
+  computed: {
+    isOnline() {
+      return function (status) {
+        if (status == 1) {
+          return "success"
+        } else {
+          return "danger"
+        }
       }
     }
   },

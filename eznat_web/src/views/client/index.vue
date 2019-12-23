@@ -20,7 +20,7 @@
       :data="tableData"
       :border="true"
       tooltip-effect="dark"
-      style="width: 100%"
+      style="width: 100%;"
       @selection-change="handleSelectionChange"
     >
       <el-table-column type="selection" width="55"></el-table-column>
@@ -33,6 +33,9 @@
       </el-table-column>
       <el-table-column label="隧道">
         <template slot-scope="scope">{{ scope.row.channel }}</template>
+      </el-table-column>
+      <el-table-column label="设备状态">
+        <template slot-scope="scope"> <el-tag :type="isOnline(scope.row.is_online)">{{ scope.row.is_online ==1 ? '在线' : '离线' }} </el-tag></template>
       </el-table-column>
       <el-table-column label="描述">
         <template slot-scope="scope">{{ scope.row.description }}</template>
@@ -116,12 +119,13 @@ export default {
         name: '',
         type: '',
         description: '',
-        channle: ''
+        channel: '',
+        is_online: ''
       },
     }
   },
   created() {
-   
+
   },
   methods: {
     openCreateView(row, type) {

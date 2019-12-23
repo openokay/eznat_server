@@ -82,6 +82,8 @@ class Server extends WorkerWithCallback implements WorkerInterface
     function onWorkerStart($worker)
     {
         global $conf;
+        global $db;
+        $db->exec("update client set is_online=0");
         ChannelClient::connect("127.0.0.1", $conf['channel_port']);
         // 内网客户端注册
         ChannelClient::on("IN_REGISTER", function ($channel) {
@@ -92,14 +94,17 @@ class Server extends WorkerWithCallback implements WorkerInterface
             } else {
                 $clientInfo = $db->query("select * from client where channel = '{$channel}'");
                 if ($clientInfo) {
+                    $db->exec("update client set is_online=1 where channel = '{$channel}'"); // 设备上线
                     self::$inClientList[$channel] = time();
                 }
             }
         });
         // 清除断线的客户端连接
         Timer::add(2, function (){
+            global $db;
             foreach (self::$inClientList as $channel => $registerTime) {
                 if (time() - $registerTime > 3) {
+                    $db->exec("update client set is_online=0 where channel = '{$channel}'");
                     unset(self::$inClientList[$channel]);
                 }
             }
